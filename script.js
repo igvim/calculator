@@ -1,20 +1,20 @@
-const add = (a,b) => {
+function add(a,b) {
     return a + b;
 };
   
-const subtract = (a,b) => {
+function subtract(a,b) {
     return a - b;
 };
 
-const multiply = (a,b) => {
+function multiply(a,b) {
     return a * b;
 };
 
-const divide = (a,b) => {
+function divide(a,b) {
     return a/b;
 };
 
-const operate = (a,b,op) => {
+function operate(a,b,op) {
     switch (op) {
         case '+':
             return add(a,b);
