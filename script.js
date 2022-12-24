@@ -6,7 +6,10 @@ only after operator has been clicked
 - how to identify operator has been clicked?
 when equals is clicked, 
 for however many operators, operate on two values of the operands array, and jump by two at a time
-NEXT need to reset display after equals is pressed
+NEXT:
+- need to reset display after equals is pressed
+- make multiple operands work
+- make clear work
 */
 
 const display = document.querySelector('.display');
