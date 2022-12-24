@@ -4,6 +4,8 @@ when an operator is clicked, store array and operator
 when button is next clicked, clear display and start new display array, 
 only after operator has been clicked
 - how to identify operator has been clicked?
+when equals is clicked, 
+for however many operators, operate on two values of the operands array, and jump by two at a time
 */
 
 const display = document.querySelector('.display');
@@ -11,7 +13,8 @@ const numKeys = document.querySelectorAll('.number');
 const opKeys = Array.from(document.querySelectorAll('.op'));
 let displayVal = [];
 let operand = '';
-let expression = [];
+let operands = [];
+let operators = [];
 
 numKeys.forEach(numKey => {
     numKey.addEventListener('click', (e) => {
@@ -32,9 +35,9 @@ opKeys.forEach(opKey => {
         opKey.classList.toggle('pressed');
         if (!displayVal.length) return;
         operand = displayVal.join('');
-        expression.push(operand);
+        operands.push(operand);
         const operator = e.target.textContent;
-        expression.push(operator);
+        operators.push(operator);
     })
 })
 
