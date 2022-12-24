@@ -4,10 +4,7 @@ const numberKeys = document.querySelectorAll('.number');
 numberKeys.forEach(key => {
     key.addEventListener('click', (e) => {
         const value = e.target.textContent;
-        const displayNum = document.createElement('div');
-        displayNum.classList.add('display-value');
-        displayNum.textContent = value;
-        display.appendChild(displayNum);
+        updateDisplay(value);
     })
 })
 
@@ -42,6 +39,13 @@ function operate(a,b,op) {
             break;
     }
 };
+
+function updateDisplay(val) {
+    const displayNum = document.createElement('div');
+    displayNum.classList.add('display-value');
+    displayNum.textContent = val;
+    display.appendChild(displayNum);
+}
 
 /*
 # populate display
