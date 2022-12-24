@@ -11,6 +11,7 @@ for however many operators, operate on two values of the operands array, and jum
 const display = document.querySelector('.display');
 const numKeys = document.querySelectorAll('.number');
 const opKeys = Array.from(document.querySelectorAll('.op'));
+const equalsKey = document.querySelector('.equals');
 let displayVal = [];
 let operand = '';
 let operands = [];
@@ -34,11 +35,15 @@ opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
         opKey.classList.toggle('pressed');
         if (!displayVal.length) return;
-        operand = displayVal.join('');
-        operands.push(operand);
+        storeOperand(displayVal);
         const operator = e.target.textContent;
         operators.push(operator);
     })
+})
+
+equalsKey.addEventListener('click', (e) => {
+    storeOperand(displayVal);
+    console.log(evaluate(operators, operands));
 })
 
 function add(a,b) {
@@ -73,6 +78,16 @@ function operate(a,b,op) {
     }
 };
 
+function evaluate(operators, operands) {
+    let result = 0;
+    for (let i = 0; i < operators.length; i++) {
+        let j = 0;
+        result = operate(operands[j], operands[j+1], operators[i]);
+        j += 2;
+    }
+    return result;
+}
+
 function updateDisplay(val) {
     const displayNum = document.createElement('div');
     displayNum.classList.add('display-value');
@@ -86,4 +101,9 @@ function clearDisplay() {
 
 function getPressedKey(keysArr) {
     return keysArr.find(key => key.classList.length > 2);
+}
+
+function storeOperand(displayVal) {
+    operand = displayVal.join('');
+    operands.push(operand);
 }
