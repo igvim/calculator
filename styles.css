@@ -41,3 +41,7 @@
 .display-value {
     font-size: xx-large;
 }
+
+.pressed {
+    background-color: yellow;
+}

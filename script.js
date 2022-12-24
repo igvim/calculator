@@ -1,10 +1,25 @@
 const display = document.querySelector('.display');
-const numberKeys = document.querySelectorAll('.number');
+const numKeys = document.querySelectorAll('.number');
+const opKeys = document.querySelectorAll('.op');
+let displayVal = [];
+let operand = '';
+let expression = [];
 
-numberKeys.forEach(key => {
-    key.addEventListener('click', (e) => {
-        const value = e.target.textContent;
-        updateDisplay(value);
+numKeys.forEach(numKey => {
+    numKey.addEventListener('click', (e) => {
+        const keyValue = e.target.textContent;
+        updateDisplay(keyValue);
+        displayVal.push(keyValue);
+    })
+})
+
+opKeys.forEach(opKey => {
+    opKey.addEventListener('click', (e) => {
+        if (!displayVal.length) return;
+        operand = displayVal.join('');
+        const opVal = e.target.textContent;
+        expression.push(operand, opVal);
+        opKey.classList.toggle('pressed');
     })
 })
 
@@ -46,11 +61,3 @@ function updateDisplay(val) {
     displayNum.textContent = val;
     display.appendChild(displayNum);
 }
-
-/*
-# populate display
-when button is clicked
-store key value as a number
-create div element and set its text content to value
-append element as a child to display
-*/
