@@ -43,7 +43,9 @@ opKeys.forEach(opKey => {
 
 equalsKey.addEventListener('click', (e) => {
     storeOperand(displayVal);
-    console.log(evaluate(operators, operands));
+    let solution = evaluate(operators, operands);
+    clearDisplay();
+    updateDisplay(solution);
 })
 
 function add(a,b) {
