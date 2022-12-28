@@ -110,6 +110,6 @@ function getPressedKey(keysArr) {
 }
 
 function storeOperand(displayVal) {
-    operand = displayVal.join('');
+    operand = parseInt(displayVal.join(''));
     operands.push(operand);
 }
