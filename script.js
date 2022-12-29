@@ -18,9 +18,6 @@ same logic should clear display when a number is pressed
 const display = document.querySelector('.display');
 const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
-const equalsKey = document.querySelector('.equals');
-const allOpKeys = Array.from(opKeys);
-allOpKeys.push(equalsKey);
 let displayVal = [];
 let operand = '';
 let operands = [];
@@ -28,7 +25,7 @@ let operators = [];
 
 numKeys.forEach(numKey => {
     numKey.addEventListener('click', (e) => {
-        const pressedKey = getPressedKey(allOpKeys);
+        let pressedKey = getPressedKey(opKeys);
         if (pressedKey) {
             displayVal = [];
             clearDisplay();
@@ -43,13 +40,21 @@ numKeys.forEach(numKey => {
 opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
         opKey.classList.toggle('pressed');
+        const opKeyClasses = Array.from(opKey.classList);
         if (!displayVal.length) return;
         storeOperand(displayVal);
-        const operator = e.target.textContent;
-        operators.push(operator);
+        if (opKeyClasses.includes('equals')) {
+            let solution = evaluate(operators, operands);
+            clearDisplay();
+            updateDisplay(solution);
+        }
+        else {
+            const operator = e.target.textContent;
+            operators.push(operator);
+        }
     })
 })
-
+/*
 equalsKey.addEventListener('click', () => {
     equalsKey.classList.toggle('pressed');
     storeOperand(displayVal);
@@ -57,7 +62,7 @@ equalsKey.addEventListener('click', () => {
     clearDisplay();
     updateDisplay(solution);
 })
-
+*/
 function add(a,b) {
     return a + b;
 };
@@ -111,8 +116,9 @@ function clearDisplay() {
     while (display.firstChild) display.removeChild(display.firstChild);
 }
 
-function getPressedKey(keysArr) {
-    return keysArr.find(key => key.classList.length > 2);
+function getPressedKey(opsList) {
+    const opsArr = Array.from(opsList);
+    return opsArr.find(op => Array.from(op.classList).includes('pressed'));
 }
 
 function storeOperand(displayVal) {
