@@ -2,6 +2,7 @@ const display = document.querySelector('.display');
 const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
 const equalsKey = document.querySelector('.equals');
+const clearKey = document.querySelector('.clear');
 let displayVal = [];
 let operand = '';
 let operands = [];
@@ -43,6 +44,10 @@ equalsKey.addEventListener('click', () => {
     updateDisplay(solution);
     evalPresent = true;
     emptyValArrays();
+})
+
+clearKey.addEventListener('click', () => {
+    clearAll();
 })
 
 function add(a,b) {
@@ -112,4 +117,9 @@ function emptyValArrays() {
     displayVal = [];
     operands = [];
     operators = [];
+}
+
+function clearAll() {
+    clearDisplay();
+    emptyValArrays();
 }
