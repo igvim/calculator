@@ -1,20 +1,3 @@
-/*
-enter a number, pushing to array
-when an operator or equals is clicked, store array and operator
-when button is next clicked, clear display and start new display array, 
-only after operator has been clicked
-- how to identify operator has been clicked?
-when equals is clicked, 
-for however many operators, operate on two values of the operands array, and jump by two at a time
-NEXT:
-- need to reset display after equals is pressed
-add pressed class to equals
-add equals key to getpressedkey input
-same logic should clear display when a number is pressed
-- make multiple operands work
-- make clear work
-*/
-
 const display = document.querySelector('.display');
 const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
@@ -23,6 +6,7 @@ let displayVal = [];
 let operand = '';
 let operands = [];
 let operators = [];
+let evalPresent = false;
 
 numKeys.forEach(numKey => {
     numKey.addEventListener('click', (e) => {
@@ -31,6 +15,10 @@ numKeys.forEach(numKey => {
             displayVal = [];
             clearDisplay();
             pressedKey.classList.toggle('pressed');
+        }
+        if (evalPresent) {
+            clearDisplay();
+            evalPresent = false;
         }
         const keyValue = e.target.textContent;
         updateDisplay(keyValue);
@@ -53,6 +41,7 @@ equalsKey.addEventListener('click', () => {
     let solution = evaluate(operators, operands);
     clearDisplay();
     updateDisplay(solution);
+    evalPresent = true;
     displayVal = [];
     operands = [];
     operators = [];
