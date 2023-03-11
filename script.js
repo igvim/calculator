@@ -18,6 +18,7 @@ same logic should clear display when a number is pressed
 const display = document.querySelector('.display');
 const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
+const equalsKey = document.querySelector('.equals');
 let displayVal = [];
 let operand = '';
 let operands = [];
@@ -39,30 +40,24 @@ numKeys.forEach(numKey => {
 
 opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
-        const opKeyClasses = Array.from(opKey.classList);
         if (!displayVal.length) return;
         storeOperand(displayVal);
-        if (opKeyClasses.includes('equals')) {
-            let solution = evaluate(operators, operands);
-            clearDisplay();
-            updateDisplay(solution);
-        }
-        else {
-            opKey.classList.toggle('pressed');
-            const operator = e.target.textContent;
-            operators.push(operator);
-        }
+        opKey.classList.toggle('pressed');
+        const operator = e.target.textContent;
+        operators.push(operator);
     })
 })
-/*
+
 equalsKey.addEventListener('click', () => {
-    equalsKey.classList.toggle('pressed');
     storeOperand(displayVal);
     let solution = evaluate(operators, operands);
     clearDisplay();
     updateDisplay(solution);
+    displayVal = [];
+    operands = [];
+    operators = [];
 })
-*/
+
 function add(a,b) {
     return a + b;
 };
@@ -124,4 +119,8 @@ function getPressedKey(opsList) {
 function storeOperand(displayVal) {
     operand = parseInt(displayVal.join(''));
     operands.push(operand);
+}
+
+function clearValueArray(arr) {
+    return arr = [];
 }
