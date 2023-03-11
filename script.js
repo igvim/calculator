@@ -40,7 +40,6 @@ numKeys.forEach(numKey => {
 opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
         const opKeyClasses = Array.from(opKey.classList);
-        console.log(opKey);
         if (!displayVal.length) return;
         storeOperand(displayVal);
         if (opKeyClasses.includes('equals')) {
