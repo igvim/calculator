@@ -39,8 +39,8 @@ numKeys.forEach(numKey => {
 
 opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
-        opKey.classList.toggle('pressed');
         const opKeyClasses = Array.from(opKey.classList);
+        console.log(opKey);
         if (!displayVal.length) return;
         storeOperand(displayVal);
         if (opKeyClasses.includes('equals')) {
@@ -49,6 +49,7 @@ opKeys.forEach(opKey => {
             updateDisplay(solution);
         }
         else {
+            opKey.classList.toggle('pressed');
             const operator = e.target.textContent;
             operators.push(operator);
         }
