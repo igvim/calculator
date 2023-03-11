@@ -42,9 +42,7 @@ equalsKey.addEventListener('click', () => {
     clearDisplay();
     updateDisplay(solution);
     evalPresent = true;
-    displayVal = [];
-    operands = [];
-    operators = [];
+    emptyValArrays();
 })
 
 function add(a,b) {
@@ -110,6 +108,8 @@ function storeOperand(displayVal) {
     operands.push(operand);
 }
 
-function clearValueArray(arr) {
-    return arr = [];
+function emptyValArrays() {
+    displayVal = [];
+    operands = [];
+    operators = [];
 }
