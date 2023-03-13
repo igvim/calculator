@@ -10,11 +10,10 @@ let evalPresent = false;
 
 numKeys.forEach(numKey => {
     numKey.addEventListener('click', (e) => {
-        let pressedKey = getPressedKey(opKeys);
-        if (pressedKey) {
+        if (isKeyPressed()) {
             displayVal = [];
             clearDisplay();
-            pressedKey.classList.toggle('pressed');
+            getPressedKey(opKeys).classList.toggle('pressed');
         }
         if (evalPresent) {
             clearDisplay();
@@ -122,4 +121,9 @@ function emptyValArrays() {
 function clearAll() {
     clearDisplay();
     emptyValArrays();
+}
+
+function isKeyPressed() {
+    let pressedKey = getPressedKey(opKeys);
+    return pressedKey ? true : false;
 }
