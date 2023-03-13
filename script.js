@@ -31,6 +31,7 @@ opKeys.forEach(opKey => {
         storeOperand(displayVal);
         if (operator) {
             const lastEval = evaluate(operands, operator);
+            if (isNaN(lastEval)) return;
             displayVal.push(lastEval);
             storeOperand(displayVal);
         }
@@ -77,7 +78,7 @@ function operate(a,b,op) {
         case 'x':
             return multiply(a,b);
         case '/':
-            return divide(a,b);
+            return b === 0 ? "Don't do that!" : divide(a,b);
         default:
             console.log('enter a real operator');
             break;
