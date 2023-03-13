@@ -91,7 +91,7 @@ function evaluate(operands, operator) {
    clearDisplay();
    updateDisplay(solution);
    evalPresent = true;
-   emptyValArrays();
+   emptyValues();
    return solution;
 }
 
@@ -116,7 +116,7 @@ function storeOperand(displayVal) {
     operands.push(operand);
 }
 
-function emptyValArrays() {
+function emptyValues() {
     displayVal = [];
     operands = [];
     operator = '';
@@ -124,7 +124,7 @@ function emptyValArrays() {
 
 function clearAll() {
     clearDisplay();
-    emptyValArrays();
+    emptyValues();
 }
 
 function isKeyPressed() {
