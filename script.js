@@ -5,6 +5,7 @@ const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
 let displayVal = [];
 let operand = '';
+let operator = '';
 let operands = [];
 let operators = [];
 let evalPresent = false;
@@ -30,19 +31,22 @@ numKeys.forEach(numKey => {
 opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
         if (!displayVal.length) return;
+        /*
+        if (operator) {
+            evaluate(operands, operator)
+        }
+        */
         opKey.classList.toggle('pressed');
         storeOperand(displayVal);
-        const operator = e.target.textContent;
-        operators.push(operator);
+        operator = e.target.textContent;
+        //operators.push(operator);
     })
 })
 
 equalsKey.addEventListener('click', () => {
+    if (evalPresent) return;
     storeOperand(displayVal);
-    let solution = evaluate(operands, operators);
-    clearDisplay();
-    updateDisplay(solution);
-    evalPresent = true;
+    evaluate(operands, operator);
     emptyValArrays();
 })
 
@@ -82,11 +86,13 @@ function operate(a,b,op) {
     }
 };
 
-function evaluate(operands, operators) {
-   let result = operands.reduce((accum, currentVal) => {
-    return operate(accum,currentVal,operators[0]);
+function evaluate(operands, operator) {
+   let solution = operands.reduce((accum, currentVal) => {
+    return operate(accum,currentVal,operator);
    });
-   return result;
+   clearDisplay();
+   updateDisplay(solution);
+   evalPresent = true;
 }
 
 function updateDisplay(val) {
