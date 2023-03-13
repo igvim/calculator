@@ -4,10 +4,8 @@ const opKeys = document.querySelectorAll('.op');
 const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
 let displayVal = [];
-let operand = '';
 let operator = '';
 let operands = [];
-let operators = [];
 let evalPresent = false;
 
 numKeys.forEach(numKey => {
@@ -31,15 +29,14 @@ numKeys.forEach(numKey => {
 opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
         if (!displayVal.length) return;
-        /*
-        if (operator) {
-            evaluate(operands, operator)
-        }
-        */
-        opKey.classList.toggle('pressed');
         storeOperand(displayVal);
+        if (operator) {
+            const lastEval = evaluate(operands, operator);
+            displayVal.push(lastEval);
+            storeOperand(displayVal);
+        }
+        opKey.classList.toggle('pressed');
         operator = e.target.textContent;
-        //operators.push(operator);
     })
 })
 
@@ -47,7 +44,6 @@ equalsKey.addEventListener('click', () => {
     if (evalPresent) return;
     storeOperand(displayVal);
     evaluate(operands, operator);
-    emptyValArrays();
 })
 
 clearKey.addEventListener('click', () => {
@@ -93,6 +89,8 @@ function evaluate(operands, operator) {
    clearDisplay();
    updateDisplay(solution);
    evalPresent = true;
+   emptyValArrays();
+   return solution;
 }
 
 function updateDisplay(val) {
@@ -112,14 +110,13 @@ function getPressedKey(opsList) {
 }
 
 function storeOperand(displayVal) {
-    operand = parseInt(displayVal.join(''));
+    const operand = parseInt(displayVal.join(''));
     operands.push(operand);
 }
 
 function emptyValArrays() {
     displayVal = [];
     operands = [];
-    operators = [];
 }
 
 function clearAll() {
