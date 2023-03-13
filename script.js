@@ -119,6 +119,7 @@ function storeOperand(displayVal) {
 function emptyValArrays() {
     displayVal = [];
     operands = [];
+    operator = '';
 }
 
 function clearAll() {
