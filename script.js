@@ -42,7 +42,7 @@ opKeys.forEach(opKey => {
 
 equalsKey.addEventListener('click', () => {
     if (evalPresent) {
-        togglePressedKey;
+        togglePressedKey();
         return;
     }
     isKeyPressed() ? togglePressedKey() : storeOperand(displayVal);
@@ -51,6 +51,7 @@ equalsKey.addEventListener('click', () => {
 
 clearKey.addEventListener('click', () => {
     clearAll();
+    togglePressedKey();
 })
 
 function add(a,b) {
@@ -134,5 +135,6 @@ function isKeyPressed() {
 }
 
 function togglePressedKey() {
-    getPressedKey(opKeys).classList.toggle('pressed');
+    let pressedKey = getPressedKey(opKeys);
+    if (pressedKey) pressedKey.classList.toggle('pressed');
 }
