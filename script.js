@@ -30,8 +30,8 @@ numKeys.forEach(numKey => {
 opKeys.forEach(opKey => {
     opKey.addEventListener('click', (e) => {
         if (!displayVal.length) return;
-        storeOperand(displayVal);
         opKey.classList.toggle('pressed');
+        storeOperand(displayVal);
         const operator = e.target.textContent;
         operators.push(operator);
     })
@@ -39,7 +39,7 @@ opKeys.forEach(opKey => {
 
 equalsKey.addEventListener('click', () => {
     storeOperand(displayVal);
-    let solution = evaluate(operators, operands);
+    let solution = evaluate(operands, operators);
     clearDisplay();
     updateDisplay(solution);
     evalPresent = true;
@@ -82,14 +82,11 @@ function operate(a,b,op) {
     }
 };
 
-function evaluate(operators, operands) {
-    let result = 0;
-    for (let i = 0; i < operators.length; i++) {
-        let j = 0;
-        result = operate(operands[j], operands[j+1], operators[i]);
-        j += 2;
-    }
-    return result;
+function evaluate(operands, operators) {
+   let result = operands.reduce((accum, currentVal) => {
+    return operate(accum,currentVal,operators[0]);
+   });
+   return result;
 }
 
 function updateDisplay(val) {
