@@ -8,133 +8,130 @@ let operator = '';
 let operands = [];
 let evalPresent = false;
 
-numKeys.forEach(numKey => {
-    numKey.addEventListener('click', (e) => {
-        if (isKeyPressed()) {
-            displayVal = [];
-            clearDisplay();
-            togglePressedKey();
-        }
-        if (evalPresent) {
-            clearDisplay();
-            evalPresent = false;
-        }
-        const keyValue = e.target.textContent;
-        updateDisplay(keyValue);
-        displayVal.push(keyValue);
-    })
-})
-
-opKeys.forEach(opKey => {
-    opKey.addEventListener('click', (e) => {
-        if (!displayVal.length) return;
-        storeOperand(displayVal);
-        if (operator) {
-            const lastEval = evaluate(operands, operator);
-            if (isNaN(lastEval)) return;
-            displayVal.push(lastEval);
-            storeOperand(displayVal);
-        }
-        opKey.classList.toggle('pressed');
-        operator = e.target.textContent;
-    })
-})
-
-equalsKey.addEventListener('click', () => {
-    if (evalPresent) {
-        togglePressedKey();
-        return;
-    }
-    isKeyPressed() ? togglePressedKey() : storeOperand(displayVal);
-    evaluate(operands, operator);
-})
-
-clearKey.addEventListener('click', () => {
-    clearAll();
-    togglePressedKey();
-})
-
-function add(a,b) {
-    return a + b;
-};
-  
-function subtract(a,b) {
-    return a - b;
-};
-
-function multiply(a,b) {
-    return a * b;
-};
-
-function divide(a,b) {
-    return a/b;
-};
-
-function operate(a,b,op) {
-    switch (op) {
-        case '+':
-            return add(a,b);
-        case '-':
-            return subtract(a,b);
-        case 'x':
-            return multiply(a,b);
-        case '/':
-            return b === 0 ? "Don't do that!" : divide(a,b);
-        default:
-            console.log('enter a real operator');
-            break;
-    }
-};
-
-function evaluate(operands, operator) {
-   let solution = operands.reduce((accum, currentVal) => {
-    return operate(accum,currentVal,operator);
-   });
-   clearDisplay();
-   updateDisplay(solution);
-   evalPresent = true;
-   emptyValues();
-   return solution;
+function add(a, b) {
+  return a + b;
 }
 
-function updateDisplay(val) {
-    const displayNum = document.createElement('div');
-    displayNum.classList.add('display-value');
-    displayNum.textContent = val;
-    display.appendChild(displayNum);
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  return a / b;
+}
+
+function operate(a, b, op) {
+  switch (op) {
+    case '+':
+      return add(a, b);
+    case '-':
+      return subtract(a, b);
+    case 'x':
+      return multiply(a, b);
+    case '/':
+      return b === 0 ? "Don't do that!" : divide(a, b);
+    default:
+      return console.log('enter a real operator');
+  }
 }
 
 function clearDisplay() {
-    while (display.firstChild) display.removeChild(display.firstChild);
+  while (display.firstChild) display.removeChild(display.firstChild);
 }
 
-function getPressedKey(opsList) {
-    const opsArr = Array.from(opsList);
-    return opsArr.find(op => Array.from(op.classList).includes('pressed'));
-}
-
-function storeOperand(displayVal) {
-    const operand = parseInt(displayVal.join(''));
-    operands.push(operand);
+function updateDisplay(val) {
+  const displayNum = document.createElement('div');
+  displayNum.classList.add('display-value');
+  displayNum.textContent = val;
+  display.appendChild(displayNum);
 }
 
 function emptyValues() {
-    displayVal = [];
-    operands = [];
-    operator = '';
+  displayVal = [];
+  operands = [];
+  operator = '';
+}
+
+function evaluate(opands, opor) {
+  const solution = opands.reduce((accum, currentVal) => operate(accum, currentVal, opor));
+  clearDisplay();
+  updateDisplay(solution);
+  evalPresent = true;
+  emptyValues();
+  return solution;
+}
+
+function getPressedKey(opsList) {
+  const opsArr = Array.from(opsList);
+  return opsArr.find((op) => Array.from(op.classList).includes('pressed'));
+}
+
+function storeOperand(dispVal) {
+  const operand = parseInt(dispVal.join(''));
+  operands.push(operand);
 }
 
 function clearAll() {
-    clearDisplay();
-    emptyValues();
+  clearDisplay();
+  emptyValues();
 }
 
 function isKeyPressed() {
-    let pressedKey = getPressedKey(opKeys);
-    return pressedKey ? true : false;
+  const pressedKey = getPressedKey(opKeys);
+  return !!pressedKey;
 }
 
 function togglePressedKey() {
-    let pressedKey = getPressedKey(opKeys);
-    if (pressedKey) pressedKey.classList.toggle('pressed');
+  const pressedKey = getPressedKey(opKeys);
+  if (pressedKey) pressedKey.classList.toggle('pressed');
 }
+
+numKeys.forEach((numKey) => {
+  numKey.addEventListener('click', (e) => {
+    if (isKeyPressed()) {
+      displayVal = [];
+      clearDisplay();
+      togglePressedKey();
+    }
+    if (evalPresent) {
+      clearDisplay();
+      evalPresent = false;
+    }
+    const keyValue = e.target.textContent;
+    updateDisplay(keyValue);
+    displayVal.push(keyValue);
+  });
+});
+
+opKeys.forEach((opKey) => {
+  opKey.addEventListener('click', (e) => {
+    if (!displayVal.length) return;
+    storeOperand(displayVal);
+    if (operator) {
+      const lastEval = evaluate(operands, operator);
+      if (Number.isNaN(lastEval)) return;
+      displayVal.push(lastEval);
+      storeOperand(displayVal);
+    }
+    opKey.classList.toggle('pressed');
+    operator = e.target.textContent;
+  });
+});
+
+equalsKey.addEventListener('click', () => {
+  if (evalPresent) {
+    togglePressedKey();
+    return;
+  }
+  isKeyPressed() ? togglePressedKey() : storeOperand(displayVal);
+  evaluate(operands, operator);
+});
+
+clearKey.addEventListener('click', () => {
+  clearAll();
+  togglePressedKey();
+});
