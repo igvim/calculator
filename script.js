@@ -8,37 +8,6 @@ let operator = '';
 let operands = [];
 let evalPresent = false;
 
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  return a / b;
-}
-
-function operate(a, b, op) {
-  switch (op) {
-    case '+':
-      return add(a, b);
-    case '-':
-      return subtract(a, b);
-    case 'x':
-      return multiply(a, b);
-    case '/':
-      return b === 0 ? "Don't do that!" : divide(a, b);
-    default:
-      return console.log('enter a real operator');
-  }
-}
-
 function clearDisplay() {
   while (display.firstChild) display.removeChild(display.firstChild);
 }
@@ -57,11 +26,41 @@ function emptyValues() {
 }
 
 function evaluate(opands, opor) {
+
+  function operate(a, b, op) {
+  
+    function add(a, b) {
+      return a + b;
+    }
+    
+    function subtract(a, b) {
+      return a - b;
+    }
+    
+    function multiply(a, b) {
+      return a * b;
+    }
+    
+    function divide(a, b) {
+      return a / b;
+    }
+  
+    switch (op) {
+      case '+':
+        return add(a, b);
+      case '-':
+        return subtract(a, b);
+      case 'x':
+        return multiply(a, b);
+      case '/':
+        return b === 0 ? "Don't do that!" : divide(a, b);
+      default:
+        return console.log('enter a real operator');
+    }
+  }
+
   const solution = opands.reduce((accum, currentVal) => operate(accum, currentVal, opor));
-  clearDisplay();
-  updateDisplay(solution);
-  evalPresent = true;
-  emptyValues();
+
   return solution;
 }
 
@@ -113,6 +112,10 @@ opKeys.forEach((opKey) => {
     storeOperand(displayVal);
     if (operator) {
       const lastEval = evaluate(operands, operator);
+      clearDisplay();
+      updateDisplay(lastEval);
+      evalPresent = true;
+      emptyValues();
       if (Number.isNaN(lastEval)) return;
       displayVal.push(lastEval);
       storeOperand(displayVal);
@@ -128,7 +131,11 @@ equalsKey.addEventListener('click', () => {
     return;
   }
   isKeyPressed() ? togglePressedKey() : storeOperand(displayVal);
-  evaluate(operands, operator);
+  const solution = evaluate(operands, operator);
+  clearDisplay();
+  updateDisplay(solution);
+  evalPresent = true;
+  emptyValues();
 });
 
 clearKey.addEventListener('click', () => {
