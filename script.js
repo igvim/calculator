@@ -12,31 +12,31 @@ function evaluate(opands, opor) {
 
   function operate(a, b, op) {
   
-    function add(a, b) {
+    function add() {
       return a + b;
     }
     
-    function subtract(a, b) {
+    function subtract() {
       return a - b;
     }
     
-    function multiply(a, b) {
+    function multiply() {
       return a * b;
     }
     
-    function divide(a, b) {
+    function divide() {
       return a / b;
     }
   
     switch (op) {
       case '+':
-        return add(a, b);
+        return add();
       case '-':
-        return subtract(a, b);
+        return subtract();
       case 'x':
-        return multiply(a, b);
+        return multiply();
       case '/':
-        return b === 0 ? "Don't do that!" : divide(a, b);
+        return b === 0 ? "Don't do that!" : divide();
       default:
         return console.log('enter a real operator');
     }
@@ -48,7 +48,7 @@ function evaluate(opands, opor) {
 }
 
 function storeOperand(dispVal) {
-  const operand = parseInt(dispVal.join(''));
+  const operand = parseInt(dispVal.join(''), 10);
   operands.push(operand);
 }
 
@@ -130,7 +130,12 @@ equalsKey.addEventListener('click', () => {
     togglePressedKey();
     return;
   }
-  isKeyPressed() ? togglePressedKey() : storeOperand(displayVal);
+  if(isKeyPressed()) {
+    togglePressedKey()
+  }
+  else {
+    storeOperand(displayVal);
+  }
   const solution = evaluate(operands, operator);
   clearDisplay();
   updateDisplay(solution);
