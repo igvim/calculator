@@ -9,7 +9,8 @@ let operands = [];
 let evalPresent = false;
 
 function clearDisplay() {
-  while (display.firstChild) display.removeChild(display.firstChild);
+  //while (display.firstChild) display.removeChild(display.firstChild);
+  display.innerHTML = '';
 }
 
 function updateDisplay(val) {
