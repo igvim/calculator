@@ -8,23 +8,6 @@ let operator = '';
 let operands = [];
 let evalPresent = false;
 
-function clearDisplay() {
-  display.innerHTML = '';
-}
-
-function updateDisplay(val) {
-  const displayNum = document.createElement('div');
-  displayNum.classList.add('display-value');
-  displayNum.textContent = val;
-  display.appendChild(displayNum);
-}
-
-function emptyValues() {
-  displayVal = [];
-  operands = [];
-  operator = '';
-}
-
 function evaluate(opands, opor) {
 
   function operate(a, b, op) {
@@ -64,19 +47,14 @@ function evaluate(opands, opor) {
   return solution;
 }
 
-function getPressedKey(opsList) {
-  const opsArr = Array.from(opsList);
-  return opsArr.find((op) => Array.from(op.classList).includes('pressed'));
-}
-
 function storeOperand(dispVal) {
   const operand = parseInt(dispVal.join(''));
   operands.push(operand);
 }
 
-function clearAll() {
-  clearDisplay();
-  emptyValues();
+function getPressedKey(opsList) {
+  const opsArr = Array.from(opsList);
+  return opsArr.find((op) => Array.from(op.classList).includes('pressed'));
 }
 
 function isKeyPressed() {
@@ -87,6 +65,28 @@ function isKeyPressed() {
 function togglePressedKey() {
   const pressedKey = getPressedKey(opKeys);
   if (pressedKey) pressedKey.classList.toggle('pressed');
+}
+
+function clearDisplay() {
+  display.innerHTML = '';
+}
+
+function updateDisplay(val) {
+  const displayNum = document.createElement('div');
+  displayNum.classList.add('display-value');
+  displayNum.textContent = val;
+  display.appendChild(displayNum);
+}
+
+function emptyValues() {
+  displayVal = [];
+  operands = [];
+  operator = '';
+}
+
+function clearAll() {
+  clearDisplay();
+  emptyValues();
 }
 
 numKeys.forEach((numKey) => {
