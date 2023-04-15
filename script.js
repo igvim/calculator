@@ -86,14 +86,14 @@ function storeOperand(dispVal) {
 }
 
 const opKeyState = (() => {
-    const getPressedState = (opsList) => {
+    const getPressedKey = (opsList) => {
       const opsArr = Array.from(opsList);
       return opsArr.find((op) => Array.from(op.classList).includes('pressed'));
     }
   
-    const pressedKey = getPressedState(opKeys);
+    const pressedKey = getPressedKey(opKeys);
 
-    const isPressed = () => !pressedKey;
+    const isPressed = () => pressedKey !== 'undefined'
   
     const togglePressed = () => {
       if (pressedKey) pressedKey.classList.toggle('pressed');
