@@ -90,12 +90,14 @@ const opKeyState = (() => {
       const opsArr = Array.from(opsList);
       return opsArr.find((op) => Array.from(op.classList).includes('pressed'));
     }
-  
-    const pressedKey = getPressedKey(opKeys);
 
-    const isPressed = () => pressedKey !== 'undefined'
+    const isPressed = () => {
+      const pressedKey = getPressedKey(opKeys);
+      return pressedKey !== 'undefined'
+    }
   
     const togglePressed = () => {
+      const pressedKey = getPressedKey(opKeys);
       if (pressedKey) pressedKey.classList.toggle('pressed');
     }
 
