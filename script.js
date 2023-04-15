@@ -47,6 +47,32 @@ function evaluate(opands, opor) {
   return solution;
 }
 
+const displayController = (() => {
+  const clearDisplay = () => {
+    display.innerHTML = '';
+  };
+  
+  const updateDisplay = (val) => {
+    const displayNum = document.createElement('div');
+    displayNum.classList.add('display-value');
+    displayNum.textContent = val;
+    display.appendChild(displayNum);
+  };
+  
+  const emptyValues = () => {
+    displayVal = [];
+    operands = [];
+    operator = '';
+  }
+  
+  const clearAll = () => {
+    clearDisplay();
+    emptyValues();
+  }
+
+  return { clearDisplay, updateDisplay, emptyValues, clearAll }
+})();
+
 function storeOperand(dispVal) {
   const operand = parseInt(dispVal.join(''), 10);
   operands.push(operand);
@@ -67,41 +93,19 @@ function togglePressedKey() {
   if (pressedKey) pressedKey.classList.toggle('pressed');
 }
 
-function clearDisplay() {
-  display.innerHTML = '';
-}
-
-function updateDisplay(val) {
-  const displayNum = document.createElement('div');
-  displayNum.classList.add('display-value');
-  displayNum.textContent = val;
-  display.appendChild(displayNum);
-}
-
-function emptyValues() {
-  displayVal = [];
-  operands = [];
-  operator = '';
-}
-
-function clearAll() {
-  clearDisplay();
-  emptyValues();
-}
-
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
     if (isKeyPressed()) {
       displayVal = [];
-      clearDisplay();
+      displayController.clearDisplay();
       togglePressedKey();
     }
     if (evalPresent) {
-      clearDisplay();
+      displayController.clearDisplay();
       evalPresent = false;
     }
     const keyValue = e.target.textContent;
-    updateDisplay(keyValue);
+    displayController.updateDisplay(keyValue);
     displayVal.push(keyValue);
   });
 });
@@ -112,10 +116,10 @@ opKeys.forEach((opKey) => {
     storeOperand(displayVal);
     if (operator) {
       const lastEval = evaluate(operands, operator);
-      clearDisplay();
-      updateDisplay(lastEval);
+      displayController.clearDisplay();
+      displayController.updateDisplay(lastEval);
       evalPresent = true;
-      emptyValues();
+      displayController.emptyValues();
       if (Number.isNaN(lastEval)) return;
       displayVal.push(lastEval);
       storeOperand(displayVal);
@@ -137,13 +141,13 @@ equalsKey.addEventListener('click', () => {
     storeOperand(displayVal);
   }
   const solution = evaluate(operands, operator);
-  clearDisplay();
-  updateDisplay(solution);
+  displayController.clearDisplay();
+  displayController.updateDisplay(solution);
   evalPresent = true;
-  emptyValues();
+  displayController.emptyValues();
 });
 
 clearKey.addEventListener('click', () => {
-  clearAll();
+  displayController.clearAll();
   togglePressedKey();
 });
