@@ -85,31 +85,27 @@ function storeOperand(dispVal) {
   operands.push(operand);
 }
 
-const opKeyState = (() => {
-    const getPressedKey = (opsList) => {
-      const opsArr = Array.from(opsList);
-      return opsArr.find((op) => Array.from(op.classList).includes('pressed'));
-    }
+function getPressedKey(opsList) {
+  const opsArr = Array.from(opsList);
+  return opsArr.find((op) => Array.from(op.classList).includes('pressed'));
+}
 
-    const isPressed = () => {
-      const pressedKey = getPressedKey(opKeys);
-      return pressedKey !== 'undefined'
-    }
-  
-    const togglePressed = () => {
-      const pressedKey = getPressedKey(opKeys);
-      if (pressedKey) pressedKey.classList.toggle('pressed');
-    }
+function isKeyPressed() {
+  const pressedKey = getPressedKey(opKeys);
+  return !!pressedKey;
+}
 
-    return { isPressed, togglePressed }
-})();
+function togglePressedKey() {
+  const pressedKey = getPressedKey(opKeys);
+  if (pressedKey) pressedKey.classList.toggle('pressed');
+}
 
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
-    if (opKeyState.isPressed()) {
+    if (isKeyPressed()) {
       displayVal = [];
       displayController.clearDisplay();
-      opKeyState.togglePressed();
+      togglePressedKey();
     }
     if (evalPresent) {
       displayController.clearDisplay();
@@ -139,11 +135,11 @@ opKeys.forEach((opKey) => {
 
 equalsKey.addEventListener('click', () => {
   if (evalPresent) {
-    opKeyState.togglePressed();
+    togglePressedKey();
     return;
   }
-  if(opKeyState.isPressed()) {
-    opKeyState.togglePressed();
+  if(isKeyPressed()) {
+    togglePressedKey();
   }
   else {
     storeOperand(displayVal);
@@ -154,5 +150,5 @@ equalsKey.addEventListener('click', () => {
 
 clearKey.addEventListener('click', () => {
   displayController.clearAll();
-  opKeyState.togglePressed();
+  togglePressedKey();
 });
