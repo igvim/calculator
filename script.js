@@ -1,4 +1,3 @@
-const display = document.querySelector('.display');
 const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
 const equalsKey = document.querySelector('.equals');
@@ -48,6 +47,8 @@ function evaluate(opands, opor) {
 }
 
 const displayController = (() => {
+  const display = document.querySelector('.display');
+
   const clearDisplay = () => {
     display.innerHTML = '';
   };
@@ -77,11 +78,13 @@ const displayController = (() => {
     emptyValues();
   }
 
-  return { clearDisplay, updateDisplay, displayEval, clearAll }
+  const currentDisplay = () => display.textContent;
+
+  return { clearDisplay, updateDisplay, displayEval, clearAll, currentDisplay }
 })();
 
 function storeOperand() {
-  const operand = parseInt(display.textContent, 10);
+  const operand = parseInt(displayController.currentDisplay(), 10);
   operands.push(operand);
 }
 
@@ -119,7 +122,7 @@ numKeys.forEach((numKey) => {
 
 opKeys.forEach((opKey) => {
   opKey.addEventListener('click', (e) => {
-    if (!display.textContent) return;
+    if (!displayController.currentDisplay) return;
     storeOperand();
     if (operator) {
       const lastEval = evaluate(operands, operator);
