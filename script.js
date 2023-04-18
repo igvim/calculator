@@ -3,7 +3,7 @@ const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
 const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
-let displayVal = [];
+// let displayVal = [];
 let operator = '';
 let operands = [];
 let evalPresent = false;
@@ -60,7 +60,7 @@ const displayController = (() => {
   };
   
   const emptyValues = () => {
-    displayVal = [];
+    // displayVal = [];
     operands = [];
     operator = '';
   }
@@ -80,8 +80,8 @@ const displayController = (() => {
   return { clearDisplay, updateDisplay, displayEval, clearAll }
 })();
 
-function storeOperand(dispVal) {
-  const operand = parseInt(dispVal.join(''), 10);
+function storeOperand() {
+  const operand = parseInt(display.textContent, 10);
   operands.push(operand);
 }
 
@@ -103,7 +103,7 @@ function togglePressedKey() {
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
     if (isKeyPressed()) {
-      displayVal = [];
+      // displayVal = [];
       displayController.clearDisplay();
       togglePressedKey();
     }
@@ -113,20 +113,20 @@ numKeys.forEach((numKey) => {
     }
     const keyValue = e.target.textContent;
     displayController.updateDisplay(keyValue);
-    displayVal.push(keyValue);
+    // displayVal.push(keyValue);
   });
 });
 
 opKeys.forEach((opKey) => {
   opKey.addEventListener('click', (e) => {
-    if (!displayVal.length) return;
-    storeOperand(displayVal);
+    if (!display.textContent) return;
+    storeOperand();
     if (operator) {
       const lastEval = evaluate(operands, operator);
       displayController.displayEval(lastEval);
       if (Number.isNaN(lastEval)) return;
-      displayVal.push(lastEval);
-      storeOperand(displayVal);
+      // displayVal.push(lastEval);
+      storeOperand();
     }
     opKey.classList.toggle('pressed');
     operator = e.target.textContent;
@@ -142,7 +142,7 @@ equalsKey.addEventListener('click', () => {
     togglePressedKey();
   }
   else {
-    storeOperand(displayVal);
+    storeOperand();
   }
   const solution = evaluate(operands, operator);
   displayController.displayEval(solution);
