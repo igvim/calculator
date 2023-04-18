@@ -48,11 +48,11 @@ function evaluate(opands, opor) {
 const displayController = (() => {
   const display = document.querySelector('.display');
 
-  const clearDisplay = () => {
+  const clear = () => {
     display.innerHTML = '';
   };
   
-  const updateDisplay = (val) => {
+  const update = (val) => {
     const displayNum = document.createElement('div');
     displayNum.classList.add('display-value');
     displayNum.textContent = val;
@@ -65,20 +65,20 @@ const displayController = (() => {
   }
   
   const clearAll = () => {
-    clearDisplay();
+    clear();
     emptyValues();
   }
 
   const displayEval = (val) => {
-    clearDisplay();
-    updateDisplay(val);
+    clear();
+    update(val);
     evalPresent = true;
     emptyValues();
   }
 
   const state = () => display.textContent;
 
-  return { clearDisplay, updateDisplay, displayEval, clearAll, state }
+  return { clear, update, displayEval, clearAll, state }
 })();
 
 function storeOperand() {
@@ -104,15 +104,15 @@ function togglePressedKey() {
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
     if (isKeyPressed()) {
-      displayController.clearDisplay();
+      displayController.clear();
       togglePressedKey();
     }
     if (evalPresent) {
-      displayController.clearDisplay();
+      displayController.clear();
       evalPresent = false;
     }
     const keyValue = e.target.textContent;
-    displayController.updateDisplay(keyValue);
+    displayController.update(keyValue);
   });
 });
 
