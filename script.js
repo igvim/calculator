@@ -2,7 +2,6 @@ const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
 const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
-// let displayVal = [];
 let operator = '';
 let operands = [];
 let evalPresent = false;
@@ -61,7 +60,6 @@ const displayController = (() => {
   };
   
   const emptyValues = () => {
-    // displayVal = [];
     operands = [];
     operator = '';
   }
@@ -78,13 +76,13 @@ const displayController = (() => {
     emptyValues();
   }
 
-  const currentDisplay = () => display.textContent;
+  const state = () => display.textContent;
 
-  return { clearDisplay, updateDisplay, displayEval, clearAll, currentDisplay }
+  return { clearDisplay, updateDisplay, displayEval, clearAll, state }
 })();
 
 function storeOperand() {
-  const operand = parseInt(displayController.currentDisplay(), 10);
+  const operand = parseInt(displayController.state(), 10);
   operands.push(operand);
 }
 
@@ -106,7 +104,6 @@ function togglePressedKey() {
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
     if (isKeyPressed()) {
-      // displayVal = [];
       displayController.clearDisplay();
       togglePressedKey();
     }
@@ -116,19 +113,17 @@ numKeys.forEach((numKey) => {
     }
     const keyValue = e.target.textContent;
     displayController.updateDisplay(keyValue);
-    // displayVal.push(keyValue);
   });
 });
 
 opKeys.forEach((opKey) => {
   opKey.addEventListener('click', (e) => {
-    if (!displayController.currentDisplay) return;
+    if (!displayController.state()) return;
     storeOperand();
     if (operator) {
       const lastEval = evaluate(operands, operator);
       displayController.displayEval(lastEval);
       if (Number.isNaN(lastEval)) return;
-      // displayVal.push(lastEval);
       storeOperand();
     }
     opKey.classList.toggle('pressed');
