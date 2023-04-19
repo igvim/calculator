@@ -4,7 +4,6 @@ const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
 let operator = '';
 let operands = [];
-let isEval = false;
 
 function evaluate(opands, opor) {
 
@@ -48,6 +47,16 @@ function evaluate(opands, opor) {
 const displayController = (() => {
   const display = document.querySelector('.display');
 
+  let isEval = false;
+
+  const state = () => display.textContent;
+
+  const getEval = () => isEval;
+
+  const flipEval = () => {
+    isEval = !isEval;
+  }
+
   const clear = () => {
     display.innerHTML = '';
   };
@@ -65,7 +74,7 @@ const displayController = (() => {
   const update = (val, valIsEval) => {
     if (valIsEval) {
       clearAll();
-      isEval = true;
+      flipEval();
     }
     const displayNum = document.createElement('div');
     displayNum.classList.add('display-value');
@@ -73,9 +82,7 @@ const displayController = (() => {
     display.appendChild(displayNum);
   };
 
-  const state = () => display.textContent;
-
-  return { update, clear, clearAll, state }
+  return { update, clear, clearAll, state, getEval, flipEval }
 })();
 
 function storeOperand() {
@@ -104,9 +111,9 @@ numKeys.forEach((numKey) => {
       displayController.clear();
       togglePressedKey();
     }
-    if (isEval) {
+    if (displayController.getEval()) {
       displayController.clear();
-      isEval = false;
+      displayController.flipEval();
     }
     const keyValue = e.target.textContent;
     displayController.update(keyValue, false);
@@ -129,7 +136,7 @@ opKeys.forEach((opKey) => {
 });
 
 equalsKey.addEventListener('click', () => {
-  if (isEval) {
+  if (displayController.getEval()) {
     togglePressedKey();
     return;
   }
