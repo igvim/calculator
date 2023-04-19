@@ -119,7 +119,7 @@ numKeys.forEach((numKey) => {
 opKeys.forEach((opKey) => {
   opKey.addEventListener('click', (e) => {
     if (!displayController.state()) return;
-    // storeOperand();
+    storeOperand();
     // if (operator) {
     const lastEval = evaluate(operands, operator);
     displayController.displayEval(lastEval);
