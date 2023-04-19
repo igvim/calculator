@@ -4,7 +4,7 @@ const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
 let operator = '';
 let operands = [];
-let evalPresent = false;
+let isEval = false;
 
 function evaluate(opands, opor) {
 
@@ -72,7 +72,7 @@ const displayController = (() => {
   const displayEval = (val) => {
     clearAll();
     update(val);
-    evalPresent = true;
+    isEval = true;
     // emptyValues();
   }
 
@@ -107,9 +107,9 @@ numKeys.forEach((numKey) => {
       displayController.clear();
       togglePressedKey();
     }
-    if (evalPresent) {
+    if (isEval) {
       displayController.clear();
-      evalPresent = false;
+      isEval = false;
     }
     const keyValue = e.target.textContent;
     displayController.update(keyValue);
@@ -132,7 +132,7 @@ opKeys.forEach((opKey) => {
 });
 
 equalsKey.addEventListener('click', () => {
-  if (evalPresent) {
+  if (isEval) {
     togglePressedKey();
     return;
   }
