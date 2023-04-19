@@ -57,18 +57,9 @@ const displayController = (() => {
     isEval = !isEval;
   }
 
-  const clear = () => {
-    display.innerHTML = '';
-  };
-
   const emptyValues = () => {
     operands = [];
     operator = '';
-  }
-  
-  const clearAll = () => {
-    clear();
-    emptyValues();
   }
 
   const add = (val) => {
@@ -77,16 +68,19 @@ const displayController = (() => {
     displayNum.textContent = val;
     display.appendChild(displayNum);
   }
+
+  const clearAll = () => {
+    add(null);
+    emptyValues();
+  }
   
-  const update = (val, valIsEval) => {
-    if (valIsEval) {
-      clearAll();
-      flipEval();
-    }
+  const update = (val) => {
+    clearAll();
+    flipEval();
     add(val);
   };
 
-  return { update, add, clear, clearAll, state, getEval, flipEval }
+  return { update, add, clearAll, state, getEval, flipEval }
 })();
 
 function storeOperand() {
@@ -112,11 +106,11 @@ function togglePressedKey() {
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
     if (isKeyPressed()) {
-      displayController.clear();
+      displayController.add(null);
       togglePressedKey();
     }
     if (displayController.getEval()) {
-      displayController.clear();
+      displayController.add(null);
       displayController.flipEval();
     }
     const keyValue = e.target.textContent;
@@ -130,7 +124,7 @@ opKeys.forEach((opKey) => {
     storeOperand();
     // if (operator) {
     const lastEval = evaluate(operands, operator);
-    displayController.update(lastEval, true)
+    displayController.update(lastEval)
     if (Number.isNaN(lastEval)) return;
     storeOperand();
     // }
@@ -151,7 +145,7 @@ equalsKey.addEventListener('click', () => {
     storeOperand();
   }
   const solution = evaluate(operands, operator);
-  displayController.update(solution, true)
+  displayController.update(solution)
 });
 
 clearKey.addEventListener('click', () => {
