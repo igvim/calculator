@@ -119,13 +119,13 @@ numKeys.forEach((numKey) => {
 opKeys.forEach((opKey) => {
   opKey.addEventListener('click', (e) => {
     if (!displayController.state()) return;
+    // storeOperand();
+    // if (operator) {
+    const lastEval = evaluate(operands, operator);
+    displayController.displayEval(lastEval);
+    if (Number.isNaN(lastEval)) return;
     storeOperand();
-    if (operator) {
-      const lastEval = evaluate(operands, operator);
-      displayController.displayEval(lastEval);
-      if (Number.isNaN(lastEval)) return;
-      storeOperand();
-    }
+    // }
     opKey.classList.toggle('pressed');
     operator = e.target.textContent;
   });
