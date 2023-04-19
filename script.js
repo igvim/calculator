@@ -57,11 +57,6 @@ const displayController = (() => {
     isEval = !isEval;
   }
 
-  const emptyValues = () => {
-    operands = [];
-    operator = '';
-  }
-
   const add = (val) => {
     const displayNum = document.createElement('div');
     displayNum.classList.add('display-value');
@@ -71,7 +66,8 @@ const displayController = (() => {
 
   const clearAll = () => {
     add(null);
-    emptyValues();
+    operands = [];
+    operator = '';
   }
   
   const update = (val) => {
