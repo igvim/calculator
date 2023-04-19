@@ -51,14 +51,7 @@ const displayController = (() => {
   const clear = () => {
     display.innerHTML = '';
   };
-  
-  const update = (val) => {
-    const displayNum = document.createElement('div');
-    displayNum.classList.add('display-value');
-    displayNum.textContent = val;
-    display.appendChild(displayNum);
-  };
-  
+
   const emptyValues = () => {
     operands = [];
     operator = '';
@@ -68,17 +61,24 @@ const displayController = (() => {
     clear();
     emptyValues();
   }
+  
+  const update = (val) => {
+    const displayNum = document.createElement('div');
+    displayNum.classList.add('display-value');
+    displayNum.textContent = val;
+    display.appendChild(displayNum);
+  };
 
   const displayEval = (val) => {
-    clear();
+    clearAll();
     update(val);
     evalPresent = true;
-    emptyValues();
+    // emptyValues();
   }
 
   const state = () => display.textContent;
 
-  return { clear, update, displayEval, clearAll, state }
+  return { update, displayEval, clearAll, state }
 })();
 
 function storeOperand() {
