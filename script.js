@@ -71,8 +71,8 @@ const displayController = (() => {
 
   const displayEval = (val) => {
     clearAll();
-    update(val);
     isEval = true;
+    update(val);
     // emptyValues();
   }
 
