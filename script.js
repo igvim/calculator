@@ -55,10 +55,7 @@ const operandController = (() => {
   }
 
   const getOperands = () => operands;
-  /*
-  const operand = parseInt(displayController.state(), 10);
-  storeOperand(operand);
-  */
+  
   return { storeOperand, dumpOperands, getOperands }
 })();
 
