@@ -70,19 +70,23 @@ const displayController = (() => {
     clear();
     emptyValues();
   }
+
+  const add = (val) => {
+    const displayNum = document.createElement('div');
+    displayNum.classList.add('display-value');
+    displayNum.textContent = val;
+    display.appendChild(displayNum);
+  }
   
   const update = (val, valIsEval) => {
     if (valIsEval) {
       clearAll();
       flipEval();
     }
-    const displayNum = document.createElement('div');
-    displayNum.classList.add('display-value');
-    displayNum.textContent = val;
-    display.appendChild(displayNum);
+    add(val);
   };
 
-  return { update, clear, clearAll, state, getEval, flipEval }
+  return { update, add, clear, clearAll, state, getEval, flipEval }
 })();
 
 function storeOperand() {
@@ -116,7 +120,7 @@ numKeys.forEach((numKey) => {
       displayController.flipEval();
     }
     const keyValue = e.target.textContent;
-    displayController.update(keyValue, false);
+    displayController.add(keyValue);
   });
 });
 
