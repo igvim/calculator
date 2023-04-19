@@ -78,7 +78,7 @@ const displayController = (() => {
 
   const state = () => display.textContent;
 
-  return { update, displayEval, clearAll, state }
+  return { update, displayEval, clear, clearAll, state }
 })();
 
 function storeOperand() {
