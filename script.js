@@ -62,23 +62,20 @@ const displayController = (() => {
     emptyValues();
   }
   
-  const update = (val) => {
+  const update = (val, valIsEval) => {
+    if (valIsEval) {
+      clearAll();
+      isEval = true;
+    }
     const displayNum = document.createElement('div');
     displayNum.classList.add('display-value');
     displayNum.textContent = val;
     display.appendChild(displayNum);
   };
 
-  const displayEval = (val) => {
-    clearAll();
-    isEval = true;
-    update(val);
-    // emptyValues();
-  }
-
   const state = () => display.textContent;
 
-  return { update, displayEval, clear, clearAll, state }
+  return { update, clear, clearAll, state }
 })();
 
 function storeOperand() {
@@ -112,7 +109,7 @@ numKeys.forEach((numKey) => {
       isEval = false;
     }
     const keyValue = e.target.textContent;
-    displayController.update(keyValue);
+    displayController.update(keyValue, false);
   });
 });
 
@@ -122,7 +119,7 @@ opKeys.forEach((opKey) => {
     storeOperand();
     // if (operator) {
     const lastEval = evaluate(operands, operator);
-    displayController.displayEval(lastEval);
+    displayController.update(lastEval, true)
     if (Number.isNaN(lastEval)) return;
     storeOperand();
     // }
@@ -143,7 +140,7 @@ equalsKey.addEventListener('click', () => {
     storeOperand();
   }
   const solution = evaluate(operands, operator);
-  displayController.displayEval(solution);
+  displayController.update(solution, true)
 });
 
 clearKey.addEventListener('click', () => {
