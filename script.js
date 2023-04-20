@@ -52,12 +52,16 @@ const opsController = (() => {
 
   const dumpOps = () => {
     operands = [];
+  }
+
+  const dumpAll = () => {
+    dumpOps();
     operator = '';
   }
 
   const getOperands = () => operands;
 
-  return { storeOperand, dumpOps, getOperands, 
+  return { storeOperand, dumpOps, dumpAll, getOperands, 
     get operator() {
       return operator;
     },
@@ -83,7 +87,7 @@ const displayController = (() => {
 
   const clearAll = () => {
     display.innerHTML = '';
-    opsController.dumpOps();
+    opsController.dumpAll();
     isEval = false;
   }
   
@@ -165,7 +169,7 @@ equalsKey.addEventListener('click', () => {
   const solution = evaluate(opsController.getOperands(), opsController.operator);
   displayController.update(solution);
   displayController.isEval = true;
-  opsController.dumpOps();
+  opsController.dumpAll();
 });
 
 clearKey.addEventListener('click', () => {
