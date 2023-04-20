@@ -68,8 +68,8 @@ const displayController = (() => {
 
   const getEval = () => isEval;
 
-  const flipEval = () => {
-    isEval = !isEval;
+  const setEval = (val) => {
+    isEval = val;
   }
 
   const add = (val) => {
@@ -90,7 +90,7 @@ const displayController = (() => {
     add(val);
   };
 
-  return { update, add, clearAll, getVals, getEval, flipEval }
+  return { update, add, clearAll, getVals, getEval, setEval }
 })();
 
 function getPressedKey(opsList) {
@@ -116,7 +116,7 @@ numKeys.forEach((numKey) => {
     }
     if (displayController.getEval()) {
       displayController.update(null);
-      displayController.flipEval();
+      displayController.setEval(false);
     }
     const keyValue = e.target.textContent;
     displayController.add(keyValue);
@@ -131,7 +131,7 @@ opKeys.forEach((opKey) => {
     // if (operator) {
     const lastEval = evaluate(operandController.getOperands(), operator);
     displayController.update(lastEval);
-    displayController.flipEval();
+    displayController.setEval(true);
     if (Number.isNaN(lastEval)) return;
     // operandController.storeOperand(lastEval);
     // }
@@ -153,7 +153,7 @@ equalsKey.addEventListener('click', () => {
   }
   const solution = evaluate(operandController.getOperands(), operator);
   displayController.update(solution);
-  displayController.flipEval();
+  displayController.setEval(true);
   operandController.dumpOperands();
   operator = '';
 });
