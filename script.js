@@ -66,12 +66,6 @@ const displayController = (() => {
 
   const getVals = () => parseInt(display.textContent, 10);
   
-  const getEval = () => isEval;
-
-  const setEval = (val) => {
-    isEval = val;
-  }
-  
   const add = (val) => {
     const displayNum = document.createElement('div');
     displayNum.classList.add('display-value');
@@ -83,6 +77,7 @@ const displayController = (() => {
     display.innerHTML = '';
     operandController.dumpOperands();
     operator = '';
+    isEval = false;
   }
   
   const update = (val) => {
@@ -90,7 +85,7 @@ const displayController = (() => {
     add(val);
   };
 
-  return { update, add, clearAll, getVals, getEval, setEval,
+  return { update, add, clearAll, getVals,
     get isEval() {
       return isEval
     }, 
@@ -117,13 +112,16 @@ function togglePressedKey() {
 
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
-    if (isKeyPressed()) {
+    if (!displayController.isEval) {
       displayController.update(null);
       togglePressedKey();
     }
-    if (displayController.getEval()) {
+    else {
+      operandController.dumpOperands();
+      operandController.storeOperand(displayController.getVals());
       displayController.update(null);
-      displayController.setEval(false);
+      displayController.isEval = false;
+      togglePressedKey();
     }
     const keyValue = e.target.textContent;
     displayController.add(keyValue);
@@ -135,11 +133,12 @@ opKeys.forEach((opKey) => {
     if (!displayController.getVals()) return;
     const lastVal = displayController.getVals();
     operandController.storeOperand(lastVal);
-    // if (operator) {
-    const lastEval = evaluate(operandController.getOperands(), operator);
-    displayController.update(lastEval);
-    displayController.setEval(true);
-    if (Number.isNaN(lastEval)) return;
+    if (operandController.getOperands().length > 1) {
+      const lastEval = evaluate(operandController.getOperands(), operator);
+      displayController.update(lastEval);
+      if (Number.isNaN(lastEval)) return;
+      displayController.isEval = true;
+    }
     // operandController.storeOperand(lastEval);
     // }
     opKey.classList.toggle('pressed');
@@ -148,7 +147,7 @@ opKeys.forEach((opKey) => {
 });
 
 equalsKey.addEventListener('click', () => {
-  if (displayController.getEval()) {
+  if (displayController.isEval) {
     togglePressedKey();
     return;
   }
@@ -160,7 +159,7 @@ equalsKey.addEventListener('click', () => {
   }
   const solution = evaluate(operandController.getOperands(), operator);
   displayController.update(solution);
-  displayController.setEval(true);
+  displayController.isEval = true;
   operandController.dumpOperands();
   operator = '';
 });
