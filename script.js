@@ -55,7 +55,7 @@ const operandController = (() => {
   }
 
   const getOperands = () => operands;
-  
+
   return { storeOperand, dumpOperands, getOperands }
 })();
 
@@ -80,14 +80,13 @@ const displayController = (() => {
   }
 
   const clearAll = () => {
-    add(null);
+    display.innerHTML = '';
     operandController.dumpOperands();
     operator = '';
   }
   
   const update = (val) => {
-    clearAll();
-    flipEval();
+    display.innerHTML = '';
     add(val);
   };
 
@@ -112,11 +111,11 @@ function togglePressedKey() {
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
     if (isKeyPressed()) {
-      displayController.add(null);
+      displayController.update(null);
       togglePressedKey();
     }
     if (displayController.getEval()) {
-      displayController.add(null);
+      displayController.update(null);
       displayController.flipEval();
     }
     const keyValue = e.target.textContent;
@@ -131,9 +130,10 @@ opKeys.forEach((opKey) => {
     operandController.storeOperand(lastVal);
     // if (operator) {
     const lastEval = evaluate(operandController.getOperands(), operator);
-    displayController.update(lastEval)
+    displayController.update(lastEval);
+    displayController.flipEval();
     if (Number.isNaN(lastEval)) return;
-    operandController.storeOperand(displayController.getVals());
+    // operandController.storeOperand(lastEval);
     // }
     opKey.classList.toggle('pressed');
     operator = e.target.textContent;
@@ -152,7 +152,10 @@ equalsKey.addEventListener('click', () => {
     operandController.storeOperand(displayController.getVals());
   }
   const solution = evaluate(operandController.getOperands(), operator);
-  displayController.update(solution)
+  displayController.update(solution);
+  displayController.flipEval();
+  operandController.dumpOperands();
+  operator = '';
 });
 
 clearKey.addEventListener('click', () => {
