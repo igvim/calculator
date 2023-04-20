@@ -2,7 +2,6 @@ const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
 const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
-let operator = '';
 
 function evaluate(opands, opor) {
 
@@ -43,20 +42,29 @@ function evaluate(opands, opor) {
   return solution;
 }
 
-const operandController = (() => {
+const opsController = (() => {
   let operands = [];
+  let operator = '';
 
   const storeOperand = (val) => {
     operands.push(val);
   }
 
-  const dumpOperands = () => {
+  const dumpOps = () => {
     operands = [];
+    operator = '';
   }
 
   const getOperands = () => operands;
 
-  return { storeOperand, dumpOperands, getOperands }
+  return { storeOperand, dumpOps, getOperands, 
+    get operator() {
+      return operator;
+    },
+    set operator(val) {
+      operator = val;
+    }
+  }
 })();
 
 const displayController = (() => {
@@ -75,8 +83,7 @@ const displayController = (() => {
 
   const clearAll = () => {
     display.innerHTML = '';
-    operandController.dumpOperands();
-    operator = '';
+    opsController.dumpOps();
     isEval = false;
   }
   
@@ -87,7 +94,7 @@ const displayController = (() => {
 
   return { update, add, clearAll, getVals,
     get isEval() {
-      return isEval
+      return isEval;
     }, 
     set isEval(val) {
       isEval = val;
@@ -117,8 +124,8 @@ numKeys.forEach((numKey) => {
       togglePressedKey();
     }
     else {
-      operandController.dumpOperands();
-      if (isKeyPressed()) operandController.storeOperand(displayController.getVals());
+      opsController.dumpOps();
+      if (isKeyPressed()) opsController.storeOperand(displayController.getVals());
       displayController.update(null);
       displayController.isEval = false;
       togglePressedKey();
@@ -132,15 +139,15 @@ opKeys.forEach((opKey) => {
   opKey.addEventListener('click', (e) => {
     if (!displayController.getVals()) return;
     const lastVal = displayController.getVals();
-    operandController.storeOperand(lastVal);
-    if (operandController.getOperands().length > 1) {
-      const lastEval = evaluate(operandController.getOperands(), operator);
+    opsController.storeOperand(lastVal);
+    if (opsController.getOperands().length > 1) {
+      const lastEval = evaluate(opsController.getOperands(), opsController.operator);
       displayController.update(lastEval);
       if (Number.isNaN(lastEval)) return;
       displayController.isEval = true;
     }
     opKey.classList.toggle('pressed');
-    operator = e.target.textContent;
+    opsController.operator = e.target.textContent;
   });
 });
 
@@ -153,13 +160,12 @@ equalsKey.addEventListener('click', () => {
     togglePressedKey();
   }
   else {
-    operandController.storeOperand(displayController.getVals());
+    opsController.storeOperand(displayController.getVals());
   }
-  const solution = evaluate(operandController.getOperands(), operator);
+  const solution = evaluate(opsController.getOperands(), opsController.operator);
   displayController.update(solution);
   displayController.isEval = true;
-  operandController.dumpOperands();
-  operator = '';
+  opsController.dumpOps();
 });
 
 clearKey.addEventListener('click', () => {
