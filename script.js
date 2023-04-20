@@ -1,73 +1,11 @@
 import evaluate from "./evaluate.js";
+import displayController from "./displayController.js";
+import opsController from "./opsController.js";
 
 const numKeys = document.querySelectorAll('.number');
 const opKeys = document.querySelectorAll('.op');
 const equalsKey = document.querySelector('.equals');
 const clearKey = document.querySelector('.clear');
-
-const opsController = (() => {
-  let operands = [];
-  let operator = '';
-
-  const storeOperand = (val) => {
-    operands.push(val);
-  }
-
-  const dumpOps = () => {
-    operands = [];
-  }
-
-  const dumpAll = () => {
-    dumpOps();
-    operator = '';
-  }
-
-  const getOperands = () => operands;
-
-  return { storeOperand, dumpOps, dumpAll, getOperands, 
-    get operator() {
-      return operator;
-    },
-    set operator(val) {
-      operator = val;
-    }
-  }
-})();
-
-const displayController = (() => {
-  const display = document.querySelector('.display');
-
-  let isEval = false;
-
-  const getVals = () => parseInt(display.textContent, 10);
-  
-  const add = (val) => {
-    const displayNum = document.createElement('div');
-    displayNum.classList.add('display-value');
-    displayNum.textContent = val;
-    display.appendChild(displayNum);
-  }
-
-  const clearAll = () => {
-    display.innerHTML = '';
-    opsController.dumpAll();
-    isEval = false;
-  }
-  
-  const update = (val) => {
-    display.innerHTML = '';
-    add(val);
-  };
-
-  return { update, add, clearAll, getVals,
-    get isEval() {
-      return isEval;
-    }, 
-    set isEval(val) {
-      isEval = val;
-    }
-  }
-})();
 
 function getPressedKey(opsList) {
   const opsArr = Array.from(opsList);
