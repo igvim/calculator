@@ -139,8 +139,6 @@ opKeys.forEach((opKey) => {
       if (Number.isNaN(lastEval)) return;
       displayController.isEval = true;
     }
-    // operandController.storeOperand(lastEval);
-    // }
     opKey.classList.toggle('pressed');
     operator = e.target.textContent;
   });
