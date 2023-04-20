@@ -65,13 +65,13 @@ const displayController = (() => {
   let isEval = false;
 
   const getVals = () => parseInt(display.textContent, 10);
-
+  
   const getEval = () => isEval;
 
   const setEval = (val) => {
     isEval = val;
   }
-
+  
   const add = (val) => {
     const displayNum = document.createElement('div');
     displayNum.classList.add('display-value');
@@ -90,7 +90,14 @@ const displayController = (() => {
     add(val);
   };
 
-  return { update, add, clearAll, getVals, getEval, setEval }
+  return { update, add, clearAll, getVals, getEval, setEval,
+    get isEval() {
+      return isEval
+    }, 
+    set isEval(val) {
+      isEval = val;
+    }
+  }
 })();
 
 function getPressedKey(opsList) {
