@@ -113,12 +113,12 @@ function togglePressedKey() {
 numKeys.forEach((numKey) => {
   numKey.addEventListener('click', (e) => {
     if (!displayController.isEval) {
-      displayController.update(null);
+      if (isKeyPressed()) displayController.update(null);
       togglePressedKey();
     }
     else {
       operandController.dumpOperands();
-      operandController.storeOperand(displayController.getVals());
+      if (isKeyPressed()) operandController.storeOperand(displayController.getVals());
       displayController.update(null);
       displayController.isEval = false;
       togglePressedKey();
